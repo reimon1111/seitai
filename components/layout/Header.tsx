@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import Image from "next/image";
 import { toText, getImageUrl } from "@/lib/utils";
@@ -23,6 +24,7 @@ type Props = {
 
 export function Header({ settings }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const reserveMode = settings?.reserveMode ?? "link";
   const reserveUrl = getReserveUrl(reserveMode, settings?.reserveUrl);
   const reserveHref = reserveUrl ?? "/reserve";
@@ -32,6 +34,10 @@ export function Header({ settings }: Props) {
   const showLogo = logoUrl.length > 0;
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (menuOpen) document.body.style.overflow = "hidden";
@@ -90,7 +96,7 @@ export function Header({ settings }: Props) {
   };
 
   return (
-    <header className={`sticky top-0 w-full border-b border-neutral-200 bg-white/98 backdrop-blur-sm ${menuOpen ? "z-[100]" : "z-40"}`}>
+    <header className={`sticky top-0 z-40 w-full border-b border-neutral-200 bg-white/98 backdrop-blur-sm ${menuOpen ? "z-[101]" : ""}`}>
       <div className="relative z-40 flex h-14 items-center justify-between px-4 sm:h-16 sm:px-10 lg:px-16">
         <Link href="/" className="shrink-0" onClick={closeMenu}>
           {showLogo ? (
@@ -153,37 +159,47 @@ export function Header({ settings }: Props) {
         </button>
       </div>
 
-      {/* オーバーレイメニュー（1024px未満）・マージンなしパディングで余白 */}
-      <div
-        id="mobile-nav"
-        className={`fixed inset-0 z-30 pt-14 lg:hidden ${
-          menuOpen ? "visible opacity-100" : "invisible opacity-0 pointer-events-none"
-        }`}
-        style={{ transition: "visibility 0.2s, opacity 0.2s", backgroundColor: "#ffffff" }}
-        aria-hidden={!menuOpen}
-      >
-        <nav className="flex max-h-[calc(100vh-5rem)] flex-col overflow-y-auto border-t border-neutral-200 bg-white px-4 pb-4 pt-4 text-right" aria-label="メニュー">
-          {NAV_ITEMS.map((item) => renderLink(item, true))}
-          <div className="mt-6 flex gap-3 border-t border-neutral-200 bg-white/98 px-4 py-3 backdrop-blur-sm">
-            <a
-              href={toText(settings?.phone) ? `tel:${toText(settings?.phone).replace(/\D/g, "")}` : "#"}
-              className="flex flex-1 items-center justify-center gap-2 border border-neutral-300 py-3 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
-              onClick={closeMenu}
-            >
-              <span aria-hidden>📞</span>
-              電話
-            </a>
-            <a
-              href={reserveHref}
-              {...(reserveExternal && { target: "_blank", rel: "noopener noreferrer" })}
-              className="flex flex-1 items-center justify-center border border-primary bg-primary py-3 text-sm font-medium text-white hover:bg-primary-hover hover:border-primary-hover"
-              onClick={closeMenu}
-            >
-              予約する
-            </a>
-          </div>
-        </nav>
-      </div>
+      {/* オーバーレイメニューを body 直下にポータルで描画し、確実に画面いっぱいにする */}
+      {mounted &&
+        createPortal(
+          <div
+            id="mobile-nav"
+            className={`fixed left-0 right-0 top-14 z-[100] flex flex-col bg-white lg:hidden ${
+              menuOpen ? "visible opacity-100" : "invisible opacity-0 pointer-events-none"
+            }`}
+            style={{
+              transition: "visibility 0.2s, opacity 0.2s",
+              height: "calc(100vh - 3.5rem)",
+              minHeight: "calc(100vh - 3.5rem)",
+            }}
+            aria-hidden={!menuOpen}
+          >
+            <div className="h-full overflow-y-auto border-t border-neutral-200 bg-white">
+              <nav className="flex min-h-full flex-col px-4 pb-4 pt-4 text-right" aria-label="メニュー">
+                {NAV_ITEMS.map((item) => renderLink(item, true))}
+                <div className="mt-6 flex gap-3 border-t border-neutral-200 bg-white/98 px-4 py-3 backdrop-blur-sm">
+                  <a
+                    href={toText(settings?.phone) ? `tel:${toText(settings?.phone).replace(/\D/g, "")}` : "#"}
+                    className="flex flex-1 items-center justify-center gap-2 border border-neutral-300 py-3 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
+                    onClick={closeMenu}
+                  >
+                    <span aria-hidden>📞</span>
+                    電話
+                  </a>
+                  <a
+                    href={reserveHref}
+                    {...(reserveExternal && { target: "_blank", rel: "noopener noreferrer" })}
+                    className="flex flex-1 items-center justify-center border border-primary bg-primary py-3 text-sm font-medium text-white hover:bg-primary-hover hover:border-primary-hover"
+                    onClick={closeMenu}
+                  >
+                    予約する
+                  </a>
+                </div>
+              </nav>
+            </div>
+          </div>,
+          document.body
+        )}
     </header>
   );
 }
