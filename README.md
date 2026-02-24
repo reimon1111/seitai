@@ -226,6 +226,38 @@ microCMS 管理画面で以下の API を作成し、**API ID** と **フィー�
 
 ---
 
+## Git と GitHub への連携
+
+このプロジェクトは **seitai フォルダ単体**で Git リポジトリになっています。Vercel でデプロイするには、GitHub にプッシュしたリポジトリを連携します。
+
+### 1. GitHub でリポジトリを作成する
+
+1. [GitHub](https://github.com/) にログインし、**New repository** をクリックする。
+2. **Repository name** を入力（例: `seitai`）。
+3. **Public** を選び、**Add a README file** にはチェックを入れずに **Create repository** をクリックする。
+
+### 2. リモートを追加してプッシュする
+
+ターミナルで **seitai フォルダ内**に移動して、以下を実行する（`YOUR_USERNAME` と `YOUR_REPO` は自分の GitHub ユーザー名とリポジトリ名に置き換える）。
+
+```bash
+cd /Users/aokireimon/Desktop/work/seitai
+
+git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
+git branch -M main
+git push -u origin main
+```
+
+GitHub でリポジトリを **既に作成済み**で、別の URL を使う場合は `origin` の URL だけ変更してください。
+
+### 3. 以降の更新の流れ
+
+- 変更をコミット: `git add .` → `git commit -m "メッセージ"`
+- GitHub にプッシュ: `git push`
+- Vercel と連携していれば、`git push` のたびに自動でデプロイされます。
+
+---
+
 ## Vercel でのデプロイ（microCMS 連携）
 
 Vercel は Next.js の開発元が提供するホスティングで、設定が簡単です。デプロイ後、トップのコンテンツ（院名・メニュー・お客様の声・施術者など）が表示されない場合は、**環境変数が未設定**の可能性があります。
