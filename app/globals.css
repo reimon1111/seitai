@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #579d3e;
+  --primary-hover: #4a8a34;
+  --primary-light: #8bc46a;
+  --font-sans: var(--font-noto-sans-jp), "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+  --font-serif: var(--font-noto-serif-jp), "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --section-spacing: 120px;
+  /* スマホ用（max-width: 768px） */
+  --mobile-px: 16px;
+  --section-py-mobile: 60px;
+  --font-size-h1-mobile: 28px;
+  --font-size-h2-mobile: 22px;
+  --font-size-h3-mobile: 18px;
+  --font-size-body-mobile: 15px;
+  --line-height-body: 1.7;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-light: var(--primary-light);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: var(--font-size-body-mobile);
+    line-height: var(--line-height-body);
+  }
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
