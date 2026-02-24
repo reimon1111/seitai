@@ -96,7 +96,7 @@ export function Footer({ settings }: Props) {
             当サイトの内容は予告なく変更することがあります。施術効果には個人差があります。
           </p>
           {toText(settings?.copyright) && (
-            <p className="mt-2 text-xs text-neutral-500">{toText(settings?.copyright)}</p>
+            <p className="mt-2 text-center text-xs text-neutral-500">{toText(settings?.copyright)}</p>
           )}
         </div>
       </Container>

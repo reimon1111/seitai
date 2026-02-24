@@ -90,7 +90,7 @@ export function Header({ settings }: Props) {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-neutral-200 bg-white/98 backdrop-blur-sm">
+    <header className={`sticky top-0 w-full border-b border-neutral-200 bg-white/98 backdrop-blur-sm ${menuOpen ? "z-[100]" : "z-40"}`}>
       <div className="relative z-40 flex h-14 items-center justify-between px-4 sm:h-16 sm:px-10 lg:px-16">
         <Link href="/" className="shrink-0" onClick={closeMenu}>
           {showLogo ? (
@@ -164,14 +164,24 @@ export function Header({ settings }: Props) {
       >
         <nav className="flex max-h-[calc(100vh-5rem)] flex-col overflow-y-auto border-t border-neutral-200 bg-white px-4 pb-4 pt-4 text-right" aria-label="メニュー">
           {NAV_ITEMS.map((item) => renderLink(item, true))}
-          <a
-            href={reserveHref}
-            {...(reserveExternal && { target: "_blank", rel: "noopener noreferrer" })}
-            className="mt-6 flex h-12 w-full items-center justify-center rounded-lg border-2 border-primary bg-primary text-[15px] font-medium text-white hover:bg-primary-hover"
-            onClick={closeMenu}
-          >
-            予約する
-          </a>
+          <div className="mt-6 flex gap-3 border-t border-neutral-200 bg-white/98 px-4 py-3 backdrop-blur-sm">
+            <a
+              href={toText(settings?.phone) ? `tel:${toText(settings?.phone).replace(/\D/g, "")}` : "#"}
+              className="flex flex-1 items-center justify-center gap-2 border border-neutral-300 py-3 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
+              onClick={closeMenu}
+            >
+              <span aria-hidden>📞</span>
+              電話
+            </a>
+            <a
+              href={reserveHref}
+              {...(reserveExternal && { target: "_blank", rel: "noopener noreferrer" })}
+              className="flex flex-1 items-center justify-center border border-primary bg-primary py-3 text-sm font-medium text-white hover:bg-primary-hover hover:border-primary-hover"
+              onClick={closeMenu}
+            >
+              予約する
+            </a>
+          </div>
         </nav>
       </div>
     </header>
