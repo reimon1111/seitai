@@ -4,6 +4,7 @@ import { Section } from "@/components/ui/Section";
 import { CTAButton } from "@/components/ui/CTAButton";
 import { getReserveUrl } from "@/lib/reserve";
 import { getSiteSettings } from "@/lib/microcms";
+import { PageHead } from "@/components/layout/PageHead";
 
 export const revalidate = 60;
 
@@ -35,8 +36,10 @@ export default async function TestimonialsPage() {
   const sorted = [...testimonials].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
   return (
-    <div className="py-8 sm:py-12">
-      <Section subtitle="Voice" title="お客様の声">
+    <>
+      <PageHead title="お客様の声" />
+      <div className="py-8 sm:py-12">
+        <Section>
         {pageIntro && (
           <p className="whitespace-pre-line leading-relaxed text-neutral-600">
             {pageIntro}
@@ -77,6 +80,7 @@ export default async function TestimonialsPage() {
           />
         </div>
       </Section>
-    </div>
+      </div>
+    </>
   );
 }

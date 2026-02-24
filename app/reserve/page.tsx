@@ -4,6 +4,7 @@ import { Section } from "@/components/ui/Section";
 import { CTAButton } from "@/components/ui/CTAButton";
 import { ReserveForm } from "@/components/reserve/ReserveForm";
 import { getReserveUrl } from "@/lib/reserve";
+import { PageHead } from "@/components/layout/PageHead";
 
 export const revalidate = 60;
 
@@ -37,8 +38,10 @@ export default async function ReservePage() {
   const isFormMode = reserveMode === "form";
 
   return (
-    <div className="py-8 sm:py-12">
-      <Section subtitle="Reserve" title="ご予約">
+    <>
+      <PageHead title="ご予約" />
+      <div className="py-8 sm:py-12">
+        <Section>
         <div className="mb-8 text-neutral-600">
           <p>ご予約はお電話または下記よりお願いいたします。</p>
           {toText(settings?.phone) && (
@@ -93,6 +96,7 @@ export default async function ReservePage() {
           </ul>
         </div>
       </Section>
-    </div>
+      </div>
+    </>
   );
 }

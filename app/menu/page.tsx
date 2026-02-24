@@ -4,6 +4,7 @@ import { toText, getImageUrl } from "@/lib/utils";
 import { Section } from "@/components/ui/Section";
 import { CTAButton } from "@/components/ui/CTAButton";
 import { getReserveUrl } from "@/lib/reserve";
+import { PageHead } from "@/components/layout/PageHead";
 
 export const revalidate = 60;
 
@@ -33,8 +34,10 @@ export default async function MenuPage() {
   const menuPageIntro = toText(settings?.menuPageIntro);
 
   return (
-    <div className="py-8 sm:py-12">
-      <Section subtitle="Menu" title="メニュー・料金">
+    <>
+      <PageHead title="メニュー・料金" />
+      <div className="py-8 sm:py-12">
+        <Section>
         {menuPageIntro && (
           <p className="whitespace-pre-line text-neutral-600 leading-relaxed">
             {menuPageIntro}
@@ -87,6 +90,7 @@ export default async function MenuPage() {
           />
         </div>
       </Section>
-    </div>
+      </div>
+    </>
   );
 }

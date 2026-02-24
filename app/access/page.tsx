@@ -3,6 +3,7 @@ import { toText } from "@/lib/utils";
 import { Section } from "@/components/ui/Section";
 import { CTAButton } from "@/components/ui/CTAButton";
 import { getReserveUrl } from "@/lib/reserve";
+import { PageHead } from "@/components/layout/PageHead";
 
 export const revalidate = 60;
 
@@ -22,8 +23,10 @@ export default async function AccessPage() {
   const pageIntro = toText(settings?.accessPageIntro);
 
   return (
-    <div className="py-8 sm:py-12">
-      <Section subtitle="Access" title="アクセス・営業時間">
+    <>
+      <PageHead title="アクセス・営業時間" />
+      <div className="py-8 sm:py-12">
+        <Section>
         {pageIntro && (
           <p className="whitespace-pre-line leading-relaxed text-neutral-600">
             {pageIntro}
@@ -86,6 +89,7 @@ export default async function AccessPage() {
           />
         </div>
       </Section>
-    </div>
+      </div>
+    </>
   );
 }

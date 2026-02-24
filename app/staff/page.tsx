@@ -5,6 +5,7 @@ import { Section } from "@/components/ui/Section";
 import { CTAButton } from "@/components/ui/CTAButton";
 import { getReserveUrl } from "@/lib/reserve";
 import { ScrollToHash } from "@/components/ui/ScrollToHash";
+import { PageHead } from "@/components/layout/PageHead";
 
 export const revalidate = 60;
 
@@ -30,9 +31,11 @@ export default async function StaffPage() {
   );
 
   return (
-    <div className="py-8 sm:py-12">
-      <ScrollToHash />
-      <Section subtitle="Staff" title="施術者紹介">
+    <>
+      <PageHead title="施術者紹介" />
+      <div className="py-8 sm:py-12">
+        <ScrollToHash />
+        <Section>
         {pageIntro && (
           <p className="whitespace-pre-line leading-relaxed text-neutral-600">
             {pageIntro}
@@ -108,6 +111,7 @@ export default async function StaffPage() {
           />
         </div>
       </Section>
-    </div>
+      </div>
+    </>
   );
 }

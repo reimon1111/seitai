@@ -1,4 +1,5 @@
 import { Section } from "@/components/ui/Section";
+import { PageHead } from "@/components/layout/PageHead";
 
 export const metadata = {
   title: "プライバシーポリシー",
@@ -7,8 +8,10 @@ export const metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="py-8 sm:py-12">
-      <Section subtitle="Privacy" title="プライバシーポリシー">
+    <>
+      <PageHead title="プライバシーポリシー" />
+      <div className="py-8 sm:py-12">
+        <Section>
         <div className="prose prose-sm max-w-none text-neutral-600">
           <p className="mb-4">
             当院では、お客様の個人情報の保護を大切にしています。
@@ -36,6 +39,7 @@ export default function PrivacyPage() {
           </p>
         </div>
       </Section>
-    </div>
+      </div>
+    </>
   );
 }
